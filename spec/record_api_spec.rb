@@ -60,7 +60,7 @@ describe RecordAPI::API do
     it 'returns all records sorted by name' do
       get "/api/records/name"
       json_response = JSON.parse(response.body)
-      expect(json_response["data"][0]["lastName"]).to eq("Garcia")
+      expect(json_response["data"][0]["lastName"]).to eq("Smith")
     end
   end
 

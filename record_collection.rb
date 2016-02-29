@@ -14,7 +14,7 @@ class RecordCollection
   end
 
   def by_name
-    @records.sort_by { |record| record.last_name }
+    @records.sort_by { |record| record.last_name }.reverse
   end
 
   def by_birthdate

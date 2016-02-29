@@ -21,7 +21,7 @@ describe RecordCollection do
 
   describe ".by_name" do
     it "returns records sorted by last name" do
-      expect(record_collection.by_name).to match([record_three, record_one, record_two])
+      expect(record_collection.by_name).to match([record_two, record_one, record_three])
     end
   end
 
