@@ -1,3 +1,3 @@
 require_relative 'record_api'
 
-run RecordCollection::API
+run RecordAPI::API

@@ -1,8 +1,9 @@
 require 'grape'
 require 'json'
-require_relative 'record'
+require_relative 'parser'
+require_relative 'record_collection'
 
-module RecordCollection
+module RecordAPI
   class API < Grape::API
     version 'v1', using: :header, vendor: :record
     format :json
