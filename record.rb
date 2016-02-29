@@ -12,7 +12,7 @@ class Record
   end
 
   def self.all
-    Parser.retrieve_records
+    Parser.retrieve_records("data.csv")
   end
 
   def self.by_gender
@@ -34,7 +34,7 @@ class Record
   end
 
   def save
-    Parser.save_record(attributes)
+    Parser.save_record("data.csv", attributes)
   end
 
   def attributes
