@@ -10,9 +10,13 @@ module Parser
     records
   end
 
-  def self.save_record(file, data)
-    CSV.open(file, "a") do |csv|
-      csv << data
+  def self.save_records(file, data)
+    headers = ["LastName","FirstName","Gender","FavoriteColor","DateOfBirth"]
+    CSV.open(file, "w") do |csv|
+      csv << headers
+      data.each do |record|
+        csv << record.attributes
+      end
     end
   end
 end
