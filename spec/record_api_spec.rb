@@ -73,6 +73,14 @@ describe RecordAPI::API do
                   } }
 
     context "record saves" do
+      before do
+        Grape::Endpoint.before_each do |endpoint|
+          allow(endpoint).to receive(:development_database).and_return("test-database.csv")
+        end
+      end
+
+      after { Grape::Endpoint.before_each nil }
+
       it 'returns 201 response' do
         post "/api/records", data
         expect(response.status).to eq(201)
@@ -88,10 +96,6 @@ describe RecordAPI::API do
         json_response = JSON.parse(response.body)
         new_record = { "firstName" => "Penelope", "lastName" => "Garcia", "gender" => "F", "favoriteColor" => "Orange", "dateOfBirth" => "1999-12-09"}
         expect(json_response).to eq(new_record)
-      end
-
-      it 'adds the record to the csv file' do
-        expect{ post "/api/records", data }.to change{ record_collection.all.length }.by(1)
       end
     end
   end
