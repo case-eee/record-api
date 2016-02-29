@@ -38,35 +38,7 @@ describe Record do
   describe "#attributes" do
     it "returns an array of the record's attributes for saving purposes" do
       expect(record_one.attributes).to be_a Array
-      expect(record_one.attributes).to eq(["Penelope", "Garcia", "F", "Orange", "1988-11-08"])
-    end
-  end
-
-  describe ".all" do
-    it "returns a collection of record objects" do
-      expect(Record.all).not_to be_empty
-      expect(Record.all.first).to be_instance_of Record
-    end
-  end
-
-  describe ".by_gender" do
-    it "returns records sorted by gender, then last name" do
-      allow(Record).to receive(:all) { [record_one, record_two, record_three] }
-      expect(Record.by_gender).to match([record_one, record_three, record_two])
-    end
-  end
-
-  describe ".by_name" do
-    it "returns records sorted by last name" do
-      allow(Record).to receive(:all) { [record_one, record_two, record_three] }
-      expect(Record.by_name).to match([record_three, record_one, record_two])
-    end
-  end
-
-  describe ".by_birthdate" do
-    it "returns records sorted by birthdate" do
-      allow(Record).to receive(:all) { [record_one, record_two, record_three] }
-      expect(Record.by_birthdate).to match([record_two, record_one, record_three])
+      expect(record_one.attributes).to eq(["Garcia", "Penelope", "F", "Orange", "1988-11-08"])
     end
   end
 
@@ -79,6 +51,15 @@ describe Record do
                     dateOfBirth: record_one.date_of_birth
                   }
       expect(record_one.to_json).to eq(json_record)
+    end
+  end
+
+  describe ".create" do
+    it "creates and returns a new Record object" do
+      record_args = {firstname: "Penelope", lastname: "Garcia", gender: "F", favoritecolor: "Orange", dateofbirth: "1988-11-08"}
+      new_record = Record.create(record_args)
+      expect(new_record).to be_an_instance_of Record
+      expect(new_record.first_name).to eq("Penelope")
     end
   end
 end

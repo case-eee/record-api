@@ -13,6 +13,11 @@ module RecordAPI
       def format_data(data)
         { "data" => data.map {|record| record.to_json } }
       end
+
+      def record_collection
+        records = Parser.retrieve_records("data.csv")
+        RecordCollection.new(records: records)
+      end
     end
 
     resource :records do
@@ -27,28 +32,31 @@ module RecordAPI
       end
 
       post do
-        Record.create({
-                         firstname: params[:first_name],
-                         lastname: params[:last_name],
-                         gender: params[:gender],
-                         favoritecolor: params[:favorite_color],
-                         dateofbirth: params[:date_of_birth]
-                     }).to_json
+        record = Record.create({
+                                  firstname: params[:first_name],
+                                  lastname: params[:last_name],
+                                  gender: params[:gender],
+                                  favoritecolor: params[:favorite_color],
+                                  dateofbirth: params[:date_of_birth]
+                              })
+        record_collection.save(record)
+        Parser.save_records("data.csv", record_collection.all)
+        record.to_json
       end
 
       desc 'returns a list of records sorted by gender'
       get :gender do
-        format_data(Record.by_gender)
+        format_data(record_collection.by_gender)
       end
 
       desc 'returns a list of records sorted by birthdate'
       get :birthdate do
-        format_data(Record.by_birthdate)
+        format_data(record_collection.by_birthdate)
       end
 
       desc 'returns a list of records sorted by name'
       get :name do
-        format_data(Record.by_name)
+        format_data(record_collection.by_name)
       end
     end
   end

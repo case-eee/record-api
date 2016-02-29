@@ -1,10 +1,15 @@
 require_relative 'spec_helper'
 
 RSpec.configure do |config|
-  config.rack_app = RecordCollection::API
+  config.rack_app = RecordAPI::API
 end
 
-describe RecordCollection::API do
+describe RecordAPI::API do
+  let(:record_one) { Record.new(firstname: "Penelope", lastname: "Garcia", gender: "F", favoritecolor: "Orange", dateofbirth: "1988-11-08") }
+  let(:record_two) { Record.new(firstname: "Pablo", lastname: "Marquez", gender: "M", favoritecolor: "Purple", dateofbirth: "1960-12-08") }
+  let(:record_three) { Record.new(firstname: "Alfred", lastname: "Adams", gender: "M", favoritecolor: "Orange", dateofbirth: "1999-01-08") }
+  let(:record_collection) { RecordCollection.new(records: [record_one, record_two, record_three]) }
+
   context 'GET /api/records/gender' do
     it 'returns 200 response' do
       get "/api/records/gender"
@@ -86,7 +91,7 @@ describe RecordCollection::API do
       end
 
       it 'adds the record to the csv file' do
-        expect{ post "/api/records", data }.to change{ Record.all.length }.by(1)
+        expect{ post "/api/records", data }.to change{ record_collection.all.length }.by(1)
       end
     end
   end
@@ -105,7 +110,7 @@ describe RecordCollection::API do
     end
 
     it 'does not add the record to the csv file' do
-      expect{ post "/api/records" }.to change{ Record.all.length }.by(0)
+      expect{ post "/api/records" }.to change{ record_collection.all.length }.by(0)
     end
   end
 end
