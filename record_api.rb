@@ -10,7 +10,7 @@ module RecordCollection
 
     helpers do
       def format_data(data)
-        { "data" => data }
+        { "data" => data.map {|record| record.to_json } }
       end
     end
 
@@ -37,20 +37,17 @@ module RecordCollection
 
       desc 'returns a list of records sorted by gender'
       get :gender do
-        data = Record.by_gender.map {|record| record.to_json }
-        format_data(data)
+        format_data(Record.by_gender)
       end
 
       desc 'returns a list of records sorted by birthdate'
       get :birthdate do
-        data = Record.by_birthdate.map {|record| record.to_json }
-        format_data(data)
+        format_data(Record.by_birthdate)
       end
 
       desc 'returns a list of records sorted by name'
       get :name do
-        data = Record.by_name.map {|record| record.to_json }
-        format_data(data)
+        format_data(Record.by_name)
       end
     end
   end
